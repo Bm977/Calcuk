@@ -1,1 +1,493 @@
-<!DOCTYPE html>\n<html lang="en">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>CalcUK</title>\n    <style>\n        body { font-family: Arial, sans-serif; margin: 20px; }\n        .calculator { margin-bottom: 40px; padding: 20px; border: 1px solid #ccc; border-radius: 5px; }\n        h2 { color: #333; }\n        input[type="number"] { width: 100%; padding: 10px; margin: 10px 0; }\n        button { padding: 10px 15px; background-color: #5cb85c; color: white; border: none; border-radius: 5px; cursor: pointer; }\n        button:hover { background-color: #4cae4c; }\n    </style>\n</head>\n<body>\n    <div class="calculator">\n        <h2>Income Tax Calculator</h2>\n        <input type="number" id="income" placeholder="Enter your income">\n        <button onclick="calculateIncomeTax()">Calculate Income Tax</button>\n        <p id="incomeTaxResult"></p>\n    </div>\n    <div class="calculator">\n        <h2>Stamp Duty Calculator</h2>\n        <input type="number" id="propertyValue" placeholder="Enter property value">\n        <button onclick="calculateStampDuty()">Calculate Stamp Duty</button>\n        <p id="stampDutyResult"></p>\n    </div>\n    <div class="calculator">\n        <h2>VAT Calculator</h2>\n        <input type="number" id="price" placeholder="Enter price">\n        <button onclick="calculateVAT()">Calculate VAT</button>\n        <p id="vatResult"></p>\n    </div>\n    <script>\n        function calculateIncomeTax() {\n            const income = parseFloat(document.getElementById('income').value);\n            let tax = 0;\n            if (income > 12500) {\n                tax = (income - 12500) * 0.2;\n            }\n            document.getElementById('incomeTaxResult').innerText = `Income Tax: £${tax.toFixed(2)}`;\n        }\n        function calculateStampDuty() {\n            const propertyValue = parseFloat(document.getElementById('propertyValue').value);\n            let duty = 0;\n            if (propertyValue > 125000) {\n                duty = (propertyValue - 125000) * 0.02;\n            }\n            document.getElementById('stampDutyResult').innerText = `Stamp Duty: £${duty.toFixed(2)}`;\n        }\n        function calculateVAT() {\n            const price = parseFloat(document.getElementById('price').value);\n            const vat = price * 0.2;\n            document.getElementById('vatResult').innerText = `VAT: £${vat.toFixed(2)}`;\n        }\n    </script>\n</body>\n</html>\n
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CalcUK – Free UK Calculators</title>
+  <meta name="description" content="Free UK calculators for income tax, stamp duty, VAT and more. Simple, accurate and up to date."/>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f4f6fb;
+      color: #1a1a2e;
+    }
+
+    header {
+      background: #1a1a2e;
+      color: white;
+      padding: 18px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    header h1 {
+      font-size: 1.5rem;
+      letter-spacing: 1px;
+    }
+
+    header h1 span { color: #4fc3f7; }
+
+    nav a {
+      color: #cdd6f4;
+      text-decoration: none;
+      margin-left: 20px;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+
+    nav a:hover { color: #4fc3f7; }
+
+    .hero {
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      color: white;
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .hero h2 {
+      font-size: 2rem;
+      margin-bottom: 12px;
+    }
+
+    .hero p {
+      color: #a0aec0;
+      font-size: 1rem;
+      max-width: 500px;
+      margin: 0 auto 24px;
+    }
+
+    .hero-badges span {
+      display: inline-block;
+      background: #4fc3f720;
+      border: 1px solid #4fc3f750;
+      color: #4fc3f7;
+      border-radius: 20px;
+      padding: 4px 14px;
+      font-size: 0.8rem;
+      margin: 4px;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: #1a1a2e;
+    }
+
+    .calc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-bottom: 50px;
+    }
+
+    .calc-card {
+      background: white;
+      border-radius: 14px;
+      padding: 28px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .calc-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+    }
+
+    .calc-card h3 {
+      font-size: 1.05rem;
+      margin-bottom: 6px;
+      color: #1a1a2e;
+    }
+
+    .calc-card p {
+      font-size: 0.85rem;
+      color: #718096;
+      margin-bottom: 18px;
+    }
+
+    .calc-icon {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #4a5568;
+      margin-bottom: 5px;
+      margin-top: 12px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      transition: border-color 0.2s;
+      background: #f9fafb;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: #4fc3f7;
+      background: white;
+    }
+
+    button {
+      margin-top: 16px;
+      width: 100%;
+      padding: 11px;
+      background: #1a1a2e;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    button:hover { background: #4fc3f7; color: #1a1a2e; }
+
+    .result {
+      margin-top: 16px;
+      background: #f0f9ff;
+      border-left: 4px solid #4fc3f7;
+      border-radius: 8px;
+      padding: 14px;
+      font-size: 0.88rem;
+      display: none;
+    }
+
+    .result.show { display: block; }
+
+    .result-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 0;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .result-row:last-child { border-bottom: none; font-weight: 700; }
+
+    .result-row span:last-child { color: #1a1a2e; font-weight: 600; }
+
+    .tax-year-note {
+      font-size: 0.75rem;
+      color: #a0aec0;
+      margin-top: 8px;
+    }
+
+    footer {
+      background: #1a1a2e;
+      color: #718096;
+      text-align: center;
+      padding: 30px 20px;
+      font-size: 0.82rem;
+    }
+
+    footer a { color: #4fc3f7; text-decoration: none; }
+
+    .disclaimer {
+      background: #fffbeb;
+      border: 1px solid #f6e05e;
+      border-radius: 8px;
+      padding: 14px 18px;
+      font-size: 0.82rem;
+      color: #744210;
+      margin-bottom: 30px;
+    }
+
+    @media (max-width: 600px) {
+      .hero h2 { font-size: 1.5rem; }
+      nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <h1>Calc<span>UK</span></h1>
+  <nav>
+    <a href="#tax">Income Tax</a>
+    <a href="#stampduty">Stamp Duty</a>
+    <a href="#vat">VAT</a>
+  </nav>
+</header>
+<div class="hero">
+  <h2>Free UK Financial Calculators</h2>
+  <p>Simple, accurate tools for everyday UK money decisions. Updated for 2024/25.</p>
+  <div class="hero-badges">
+    <span>✓ 2024/25 Tax Year</span>
+    <span>✓ No sign-up</span>
+    <span>✓ Mobile friendly</span>
+    <span>✓ Completely free</span>
+  </div>
+</div>
+<div class="container">
+  <div class="disclaimer">
+    ⚠️ These calculators provide estimates for guidance only. For personalised financial advice, consult a qualified adviser or visit <a href="https://www.gov.uk" target="_blank">GOV.UK</a>.
+  </div>
+  <div class="section-title">🇬🇧 UK Calculators</div>
+  <div class="calc-grid">
+    <div class="calc-card" id="tax">
+      <div class="calc-icon">💷</div>
+      <h3>Income Tax & NI Calculator</h3>
+      <p>Calculate your take-home pay after income tax and National Insurance (2024/25).</p>
+      <label for="salary">Annual Gross Salary (£)</label>
+      <input type="number" id="salary" placeholder="e.g. 35000" min="0"/>
+      <label for="period">Show results as</label>
+      <select id="period">
+        <option value="annual">Annual</option>
+        <option value="monthly">Monthly</option>
+        <option value="weekly">Weekly</option>
+      </select>
+      <label for="scotland">Tax Region</label>
+      <select id="scotland">
+        <option value="england">England / Wales / N. Ireland</option>
+        <option value="scotland">Scotland</option>
+      </select>
+      <button onclick="calcTax()">Calculate Take-Home</button>
+      <div class="result" id="tax-result">
+        <div class="result-row"><span>Gross Income</span><span id="r-gross"></span></div>
+        <div class="result-row"><span>Income Tax</span><span id="r-tax"></span></div>
+        <div class="result-row"><span>National Insurance</span><span id="r-ni"></span></div>
+        <div class="result-row"><span>Take-Home Pay</span><span id="r-takehome"></span></div>
+        <div class="tax-year-note">Based on 2024/25 tax rates. Personal Allowance: £12,570.</div>
+      </div>
+    </div>
+    <div class="calc-card" id="stampduty">
+      <div class="calc-icon">🏠</div>
+      <h3>Stamp Duty Calculator</h3>
+      <p>Work out how much Stamp Duty Land Tax (SDLT) you'll pay on a UK property purchase.</p>
+      <label for="price">Property Price (£)</label>
+      <input type="number" id="price" placeholder="e.g. 250000" min="0"/>
+      <label for="buyer-type">Buyer Type</label>
+      <select id="buyer-type">
+        <option value="first">First-Time Buyer</option>
+        <option value="home">Moving Home (main residence)</option>
+        <option value="additional">Additional Property / Buy-to-Let</option>
+      </select>
+      <button onclick="calcStampDuty()">Calculate Stamp Duty</button>
+      <div class="result" id="sd-result">
+        <div class="result-row"><span>Property Price</span><span id="sd-price"></span></div>
+        <div class="result-row"><span>Stamp Duty Due</span><span id="sd-duty"></span></div>
+        <div class="result-row"><span>Effective Rate</span><span id="sd-rate"></span></div>
+        <div class="tax-year-note">England & Northern Ireland rates. Scottish (LBTT) and Welsh (LTT) rates differ.</div>
+      </div>
+    </div>
+    <div class="calc-card" id="vat">
+      <div class="calc-icon">🧾</div>
+      <h3>VAT Calculator</h3>
+      <p>Add or remove UK VAT from any amount. Standard rate is 20%.</p>
+      <label for="vat-amount">Amount (£)</label>
+      <input type="number" id="vat-amount" placeholder="e.g. 1000" min="0"/>
+      <label for="vat-rate">VAT Rate</label>
+      <select id="vat-rate">
+        <option value="20">20% – Standard</option>
+        <option value="5">5% – Reduced</option>
+        <option value="0">0% – Zero rated</option>
+      </select>
+      <label for="vat-direction">Calculation</label>
+      <select id="vat-direction">
+        <option value="add">Add VAT (ex-VAT → inc-VAT)</option>
+        <option value="remove">Remove VAT (inc-VAT → ex-VAT)</option>
+      </select>
+      <button onclick="calcVAT()">Calculate VAT</button>
+      <div class="result" id="vat-result">
+        <div class="result-row"><span>Net Amount (ex-VAT)</span><span id="vat-net"></span></div>
+        <div class="result-row"><span>VAT Amount</span><span id="vat-amount-out"></span></div>
+        <div class="result-row"><span>Gross Amount (inc-VAT)</span><span id="vat-gross"></span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>© 2024 CalcUK · For guidance only · <a href="#">Privacy Policy</a> · <a href="#">Contact</a></p>
+  <p style="margin-top:8px;">Always verify figures with <a href="https://www.gov.uk" target="_blank">GOV.UK</a> or a qualified adviser.</p>
+</footer>
+<script>
+  function fmt(n) {
+    return '£' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+
+  function divide(n, period) {
+    if (period === 'monthly') return n / 12;
+    if (period === 'weekly') return n / 52;
+    return n;
+  }
+
+  function periodLabel(period) {
+    if (period === 'monthly') return '/month';
+    if (period === 'weekly') return '/week';
+    return '/year';
+  }
+
+  // ── INCOME TAX ──────────────────────────────────────────
+  function calcTax() {
+    const gross = parseFloat(document.getElementById('salary').value);
+    const period = document.getElementById('period').value;
+    const scotland = document.getElementById('scotland').value === 'scotland';
+
+    if (isNaN(gross) || gross < 0) { alert('Please enter a valid salary.'); return; }
+
+    const personalAllowance = gross > 125140 ? 0 : gross > 100000 ? 12570 - ((gross - 100000) / 2) : 12570;
+    const taxable = Math.max(0, gross - personalAllowance);
+
+    let incomeTax = 0;
+
+    if (scotland) {
+      // Scottish 2024/25 bands
+      const bands = [
+        { limit: 2306,  rate: 0.19 },
+        { limit: 13991, rate: 0.20 },
+        { limit: 31092, rate: 0.21 },
+        { limit: 62430, rate: 0.42 },
+        { limit: 125140,rate: 0.45 },
+        { limit: Infinity, rate: 0.48 }
+      ];
+      let remaining = taxable;
+      let prev = 0;
+      for (const band of bands) {
+        const slice = Math.min(Math.max(remaining, 0), band.limit - prev);
+        incomeTax += slice * band.rate;
+        remaining -= slice;
+        prev = band.limit;
+        if (remaining <= 0) break;
+      }
+    } else {
+      // England/Wales/NI 2024/25
+      if (taxable > 125140) incomeTax += (taxable - 125140) * 0.45;
+      if (taxable > 50270)  incomeTax += (Math.min(taxable, 125140) - 50270) * 0.40;
+      if (taxable > 0)      incomeTax += Math.min(taxable, 50270) * 0.20;
+    }
+
+    // National Insurance (Class 1, employee) 2024/25
+    // Primary threshold £12,570, Upper earnings limit £50,270
+    let ni = 0;
+    if (gross > 50270)      ni += (gross - 50270) * 0.02;
+    if (gross > 12570)      ni += (Math.min(gross, 50270) - 12570) * 0.08;
+
+    const takeHome = gross - incomeTax - ni;
+    const lbl = periodLabel(period);
+
+    document.getElementById('r-gross').textContent     = fmt(divide(gross, period)) + lbl;
+    document.getElementById('r-tax').textContent       = fmt(divide(incomeTax, period)) + lbl;
+    document.getElementById('r-ni').textContent        = fmt(divide(ni, period)) + lbl;
+    document.getElementById('r-takehome').textContent  = fmt(divide(takeHome, period)) + lbl;
+
+    document.getElementById('tax-result').classList.add('show');
+  }
+
+  // ── STAMP DUTY ──────────────────────────────────────────
+  function calcStampDuty() {
+    const price = parseFloat(document.getElementById('price').value);
+    const type  = document.getElementById('buyer-type').value;
+
+    if (isNaN(price) || price < 0) { alert('Please enter a valid property price.'); return; }
+
+    let duty = 0;
+
+    if (type === 'first') {
+      // First-time buyer relief (England): 0% up to £425k, 5% £425k–£625k, standard above £625k
+      if (price <= 425000) {
+        duty = 0;
+      } else if (price <= 625000) {
+        duty = (price - 425000) * 0.05;
+      } else {
+        // Relief removed above £625k — standard rates apply
+        duty = calcSDLT(price, false);
+      }
+    } else if (type === 'additional') {
+      // Additional property surcharge: standard rates + 3%
+      duty = calcSDLT(price, true);
+    } else {
+      duty = calcSDLT(price, false);
+    }
+
+    const effectiveRate = price > 0 ? (duty / price) * 100 : 0;
+
+    document.getElementById('sd-price').textContent = fmt(price);
+    document.getElementById('sd-duty').textContent  = fmt(duty);
+    document.getElementById('sd-rate').textContent  = effectiveRate.toFixed(2) + '%';
+
+    document.getElementById('sd-result').classList.add('show');
+  }
+
+  function calcSDLT(price, additional) {
+    const surcharge = additional ? 0.03 : 0;
+    const bands = [
+      { limit: 250000,  rate: 0.00 },
+      { limit: 925000,  rate: 0.05 },
+      { limit: 1500000, rate: 0.10 },
+      { limit: Infinity,rate: 0.12 }
+    ];
+    let duty = 0;
+    let prev = 0;
+    for (const band of bands) {
+      if (price > prev) {
+        const slice = Math.min(price, band.limit) - prev;
+        duty += slice * (band.rate + (prev === 0 && additional ? surcharge : additional ? surcharge : 0));
+        // apply surcharge across all bands if additional
+        if (!additional) duty += 0; // already added above
+      }
+      prev = band.limit;
+    }
+    // Recalculate cleanly for additional
+    if (additional) {
+      duty = 0; prev = 0;
+      for (const band of bands) {
+        if (price > prev) {
+          const slice = Math.min(price, band.limit) - prev;
+          duty += slice * (band.rate + surcharge);
+        }
+        prev = band.limit;
+      }
+    }
+    return duty;
+  }
+
+  // ── VAT ─────────────────────────────────────────────────
+  function calcVAT() {
+    const amount    = parseFloat(document.getElementById('vat-amount').value);
+    const rate      = parseFloat(document.getElementById('vat-rate').value) / 100;
+    const direction = document.getElementById('vat-direction').value;
+
+    if (isNaN(amount) || amount < 0) { alert('Please enter a valid amount.'); return; }
+
+    let net, vatAmt, gross;
+
+    if (direction === 'add') {
+      net    = amount;
+      vatAmt = amount * rate;
+      gross  = amount + vatAmt;
+    } else {
+      gross  = amount;
+      net    = amount / (1 + rate);
+      vatAmt = gross - net;
+    }
+
+    document.getElementById('vat-net').textContent        = fmt(net);
+    document.getElementById('vat-amount-out').textContent = fmt(vatAmt);
+    document.getElementById('vat-gross').textContent      = fmt(gross);
+
+    document.getElementById('vat-result').classList.add('show');
+  }
+</script>
+
+</body>
+</html>
